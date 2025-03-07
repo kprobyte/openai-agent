@@ -1,0 +1,17 @@
+# Use an official Node.js runtime as a parent image (using a slim or alpine variant is common)
+FROM node:18-alpine
+
+# Create and set the working directory
+WORKDIR /app
+COPY ./openai-realtime-agents /app/openai-realtime-agents
+#ENVHERE
+
+# Install dependencies (assuming package*.json is already in the mounted directory)
+RUN npm install --prefix /app/openai-realtime-agents
+
+# Expose the port the Node.js app is running on
+EXPOSE 3000
+
+# Build and launch the production server
+RUN npm run build --prefix /app/openai-realtime-agents
+CMD ["npm", "start", "--prefix", "/app/openai-realtime-agents"]
