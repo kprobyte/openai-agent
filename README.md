@@ -8,23 +8,42 @@ The code changes are done for deployment on Podman or Docker container
 
 ## Setups
 ### *Step 1: Clone the repo*
-```git clone https://github.com/kprobyte/openai-agent.git```
+```
+git clone https://github.com/kprobyte/openai-agent.git
+```
 
 ### *Step 2: Install podman*
 Podman is a daemonless, open-source tool designed to manage and run Open Container Initiative (OCI) containers and pods, making it an alternative to Docker.
-```https://podman.io/get-started```
+```
+https://podman.io/get-started
+```
+Podman will expect to install WSL. Once podman is downloaded and installed. Run the following commands.
+Run this command to initiate the machine. It will download and setup the podman machine instance along with the Linux variant for WSL.
+```
+podman machine init
+```
+Next time after a reboot you can just use these commands to start/stop the machine.
+```
+podman machine start
+or
+podman machine stop
+```
 
 ### *Step 3: Install python and podman-compose*
 pip install podman-compose
 add “%USERPROFILE%\AppData\Roaming\Python\Python313\Scripts” to PATH
-```https://www.python.org/downloads/```
+```
+https://www.python.org/downloads/
+```
 
 ### *Step 4: Generate API key*
 Signup to OpenAi and generate a key to use. We are using the model gpt-4o-mini-realtime-preview-2024-12-17 for this project. It can be changed in these files
     openai-realtime-agents\src\app\api\session\route.ts
     openai-realtime-agents\src\app\lib\realtimeConnection.ts
 
-```https://platform.openai.com/settings/organization/api-keys```
+```
+https://platform.openai.com/settings/organization/api-keys
+```
 
 ### *Step 5: Pass the key as environment variable*
 Store the generated api key and save it in a file and name it envfile.txt
@@ -41,12 +60,16 @@ This OPENAI_API_KEY will added to docker file and will be available as an enviro
 Execute the python script build_container.py
 The script creates a Dockerfile combining the Dockerfile.ori and envfile.txt.
 The "podman-compose -f podman-compose.yml up -d" command is executed which builds a podman container using alpine image and then installs the dependencies for the NodeJS project. The dependencies are listed in the package*.json files within the project folder.
-```py build_container.py```
+```
+py build_container.py
+```
 After successful build the container will start and the application will be availabe on port 3000
 
 ### *Step 7: Open the app*
 The application exposes port 3000 from the container and the NodeJS app listens to this port.
-```http://localhost:3000```
+```
+http://localhost:3000
+```
 
 At the end of successful execution, you should have to images generated.
 REPOSITORY                   TAG         SIZE
@@ -54,12 +77,18 @@ localhost/openai-agent_app  latest      954 MB
 docker.io/library/node       18-alpine   129 MB
 
 Use the following command to view the images
-```podmain images```
+```
+podmain images
+```
 
 You can start/stop the container with following commands
 ```
 podman start openai-agent
 podman stop openai-agent
+```
+You can check if the agent is running by using this command
+```
+podman ps -a
 ```
 
 ## In case of a build failure
