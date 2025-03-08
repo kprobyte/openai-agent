@@ -1,3 +1,17 @@
+"""
+Author: Bopaiah Mekerira
+This script automates the process of building and starting a container using podman-compose.
+It reads environment variables from a specified file, inserts them into a Dockerfile template,
+and then uses podman-compose to build and start the container.
+Steps performed by the script:
+1. Check if the environment variables file exists.
+2. Delete any existing Dockerfile.
+3. Read the Dockerfile template and environment variables.
+4. Insert the environment variables into the Dockerfile.
+5. Write the updated Dockerfile.
+6. Run the podman-compose build command to build and start the container.
+7. Delete the Dockerfile after the container is built.
+"""
 import os
 import subprocess
 
